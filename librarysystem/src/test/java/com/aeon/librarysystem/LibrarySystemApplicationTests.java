@@ -66,7 +66,7 @@ class LibrarySystemApplicationTests {
 
         ApiResponse<BorrowerDTO> response = libraryController.registerBorrower(borrowerDTO);
 
-        assertEquals(ApiConstants.CREATED_CODE, response.getCode());  // Check if status code is 201 (created)
+        assertEquals(ApiConstants.CREATED_CODE, response.getCode());
     }
 
     @Test
@@ -76,7 +76,7 @@ class LibrarySystemApplicationTests {
 
         ApiResponse<BookDTO> response = libraryController.registerBook(bookDTO);
 
-        assertEquals(ApiConstants.CREATED_CODE, response.getCode());  // Check if status code is 201 (created)
+        assertEquals(ApiConstants.CREATED_CODE, response.getCode());
     }
 
     @Test
@@ -85,7 +85,7 @@ class LibrarySystemApplicationTests {
 
         ApiResponse<?> response = libraryController.getAllBooks();
 
-        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());  // Check if status code is 200 (success)
+        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());
     }
 
     @Test
@@ -95,7 +95,7 @@ class LibrarySystemApplicationTests {
 
         ApiResponse<?> response = libraryController.borrowBook(bookId);
 
-        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());  // Check if status code is 200 (success)
+        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());
     }
 
     @Test
@@ -105,6 +105,6 @@ class LibrarySystemApplicationTests {
 
         ApiResponse<?> response = libraryController.returnBook(bookId);
 
-        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());  // Check if status code is 200 (success)
+        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());
     }
 }
