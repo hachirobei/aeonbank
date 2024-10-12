@@ -27,7 +27,7 @@ Explore and interact with the APIs using Swagger UI. Access the API documentatio
 ### Manual Testing with Postman
 
 1. **Download the Postman Collection:**
-   - Download the "Online Store.postman_collection" file from the project repository.
+   - Download the "aeon.postman_collection" file from the project repository.
 
 2. **Import Collection into Postman:**
    - Open Postman.
