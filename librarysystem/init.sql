@@ -1,4 +1,7 @@
-CREATE DATABASE IF NOT EXISTS librarySystem;
-CREATE USER IF NOT EXISTS 'test'@'%' IDENTIFIED BY 'test';
-GRANT ALL PRIVILEGES ON librarySystem.* TO 'test'@'%';
+CREATE DATABASE IF NOT EXISTS librarysystem;
+
+CREATE USER IF NOT EXISTS 'test'@'%' IDENTIFIED WITH mysql_native_password BY 'test';
+
+GRANT ALL PRIVILEGES ON librarysystem.* TO 'test'@'%';
+
 FLUSH PRIVILEGES;

@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   mysqldb:
     image: "mysql:8.0"
@@ -9,12 +10,12 @@ services:
     networks:
       - local_network
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysqldb-aeon"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,7 +23,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api_service:
-    container_name: librarySystem-Aeon
+    container_name: librarysystem-aeon
     build: .
     restart: always
     ports:
@@ -31,10 +32,13 @@ services:
       - local_network
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb-aeon:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     depends_on:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
     volumes:
-      - .m2:/root/.m2
+      - ~/.m2:/root/.m2
 
   test_service:
     build:
@@ -42,7 +46,8 @@ services:
       target: test
     container_name: test_api_service
     depends_on:
-      - api_service
+      api_service:
+        condition: service_started
     networks:
       - local_network
     command: mvn test
