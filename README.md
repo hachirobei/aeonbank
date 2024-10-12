@@ -1,4 +1,4 @@
-# eoanbank
+# AEON bank
 
 <div align="center">
   <h1>AEON BANK</h1>
