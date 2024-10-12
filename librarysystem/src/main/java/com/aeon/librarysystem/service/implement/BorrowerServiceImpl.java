@@ -2,6 +2,7 @@ package com.aeon.librarysystem.service.implement;
 
 import com.aeon.librarysystem.dto.BorrowerDTO;
 import com.aeon.librarysystem.entity.Borrower;
+import com.aeon.librarysystem.exception.BorrowerAlreadyExistsException;
 import com.aeon.librarysystem.repository.BorrowerRepository;
 import com.aeon.librarysystem.service.BorrowerService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,10 @@ public class BorrowerServiceImpl implements BorrowerService {
 
     @Override
     public BorrowerDTO registerBorrower(BorrowerDTO borrowerDTO) {
+        if (borrowerRepository.existsByEmail(borrowerDTO.getEmail())) {
+            throw new BorrowerAlreadyExistsException(
+                    String.format("Borrower with email %s is already registered.", borrowerDTO.getEmail()));
+        }
 
         Borrower borrower = new Borrower();
         borrower.setName(borrowerDTO.getName());

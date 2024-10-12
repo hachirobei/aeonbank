@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "26a579f0-2af9-4170-86ed-2aef48e1233a",
+		"name": "aeon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22960917"
+	},
+	"item": [
+		{
+			"name": "index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8061",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8061"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register a borrower",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Muhammad hafizoddin\",\r\n  \"email\": \"hachirobei93@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8061/api/library/borrowers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8061",
+					"path": [
+						"api",
+						"library",
+						"borrowers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register a book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"isbn\": \"978-0-80-728600-5\",\r\n  \"title\": \"Harry Potter and the Sorcerer's Stone\",\r\n  \"author\": \"J. K. Rowling\",\r\n  \"isBorrowed\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8061/api/library/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8061",
+					"path": [
+						"api",
+						"library",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrow a book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8061/api/library/borrow/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8061",
+					"path": [
+						"api",
+						"library",
+						"borrow",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "return a book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8061/api/library/return/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8061",
+					"path": [
+						"api",
+						"library",
+						"return",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all book",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8061/api/library/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8061",
+					"path": [
+						"api",
+						"library",
+						"books"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -3,9 +3,7 @@ package com.aeon.librarysystem.service.implement;
 import com.aeon.librarysystem.constant.ApiConstants;
 import com.aeon.librarysystem.dto.BookDTO;
 import com.aeon.librarysystem.entity.Book;
-import com.aeon.librarysystem.exception.BookAlreadyBorrowedException;
-import com.aeon.librarysystem.exception.BookNotBorrowedException;
-import com.aeon.librarysystem.exception.BookNotFoundException;
+import com.aeon.librarysystem.exception.*;
 import com.aeon.librarysystem.repository.BookRepository;
 import com.aeon.librarysystem.service.BookService;
 import jakarta.transaction.Transactional;
@@ -22,22 +20,28 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDTO registerBook(BookDTO bookDTO) {
+        bookRepository.findByIsbn(bookDTO.getIsbn()).ifPresent(existingBook -> {
+            if (!existingBook.getTitle().equals(bookDTO.getTitle()) ||
+                    !existingBook.getAuthor().equals(bookDTO.getAuthor())) {
+                throw new InvalidBookDetailsException(String.format(
+                        "ISBN %s exists with a different title/author. Expected Title: %s, Author: %s",
+                        bookDTO.getIsbn(), existingBook.getTitle(), existingBook.getAuthor()));
+            }
+            throw new BookAlreadyExistsException(String.format(
+                    "Book with ISBN %s already exists with title: %s and author: %s.",
+                    bookDTO.getIsbn(), bookDTO.getTitle(), bookDTO.getAuthor()));
+        });
 
-        Book book = new Book();
-        book.setIsbn(bookDTO.getIsbn());
-        book.setTitle(bookDTO.getTitle());
-        book.setAuthor(bookDTO.getAuthor());
-        book.setBorrowed(false);
-
+        Book book = new Book(null, bookDTO.getIsbn(), bookDTO.getTitle(), bookDTO.getAuthor(), false);
         Book savedBook = bookRepository.save(book);
 
-        return new BookDTO(savedBook.getId(), savedBook.getIsbn(), savedBook.getTitle(), savedBook.getAuthor(), savedBook.isBorrowed());
+        return mapToDTO(savedBook);
     }
 
     @Override
     public List<BookDTO> getAllBooks() {
         return bookRepository.findAll().stream()
-                .map(book -> new BookDTO(book.getId(), book.getIsbn(), book.getTitle(), book.getAuthor(), book.isBorrowed()))
+                .map(this::mapToDTO)
                 .toList();
     }
 
@@ -52,7 +56,7 @@ public class BookServiceImpl implements BookService {
                     book.setBorrowed(true);
                     return bookRepository.save(book);
                 })
-                .map(savedBook -> new BookDTO(savedBook.getId(), savedBook.getIsbn(), savedBook.getTitle(), savedBook.getAuthor(), savedBook.isBorrowed()))
+                .map(this::mapToDTO)
                 .orElseThrow(BookNotFoundException::new);
     }
 
@@ -62,13 +66,22 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findById(bookId)
                 .map(book -> {
                     if (!book.isBorrowed()) {
-
-                        throw new BookNotBorrowedException("Book with ID " + bookId + " was not borrowed. Error Code: " + ApiConstants.BOOK_NOT_BORROWED_CODE);
+                        throw new BookNotBorrowedException(String.format(
+                                "Book with ID %s was not borrowed.", bookId));
                     }
                     book.setBorrowed(false);
                     return bookRepository.save(book);
                 })
-                .map(savedBook -> new BookDTO(savedBook.getId(), savedBook.getIsbn(), savedBook.getTitle(), savedBook.getAuthor(), savedBook.isBorrowed()))
+                .map(this::mapToDTO)
                 .orElseThrow(BookNotFoundException::new);
+    }
+
+    private BookDTO mapToDTO(Book book) {
+        return new BookDTO(
+                book.getId(),
+                book.getIsbn(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.isBorrowed());
     }
 }

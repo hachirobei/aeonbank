@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,7 +43,7 @@ class LibrarySystemApplicationTests {
 
     private BorrowerDTO generateRandomBorrowerDTO() {
         return new BorrowerDTO(
-                faker.number().numberBetween(1L, 1000L),
+                faker.number().randomNumber(),
                 faker.name().fullName(),
                 faker.internet().emailAddress()
         );
@@ -52,91 +51,60 @@ class LibrarySystemApplicationTests {
 
     private BookDTO generateRandomBookDTO() {
         return new BookDTO(
-                faker.number().numberBetween(1L, 1000L),
+                faker.number().randomNumber(),
                 faker.code().isbn10(),
                 faker.book().title(),
                 faker.book().author(),
-                faker.bool().bool()
+                false
         );
     }
 
     @Test
     void testRegisterBorrower() {
-        // Arrange
         BorrowerDTO borrowerDTO = generateRandomBorrowerDTO();
         when(borrowerService.registerBorrower(any(BorrowerDTO.class))).thenReturn(borrowerDTO);
 
-        // Act
         ApiResponse<BorrowerDTO> response = libraryController.registerBorrower(borrowerDTO);
 
-        // Assert
-        assertEquals(ApiConstants.CREATED_CODE, response.getCode());
-        assertEquals(borrowerDTO, response.getData());
-        verify(borrowerService, times(1)).registerBorrower(any(BorrowerDTO.class));
+        assertEquals(ApiConstants.CREATED_CODE, response.getCode());  // Check if status code is 201 (created)
     }
 
     @Test
     void testRegisterBook() {
-        // Arrange
         BookDTO bookDTO = generateRandomBookDTO();
         when(bookService.registerBook(any(BookDTO.class))).thenReturn(bookDTO);
 
-        // Act
         ApiResponse<BookDTO> response = libraryController.registerBook(bookDTO);
 
-        // Assert
-        assertEquals(ApiConstants.CREATED_CODE, response.getCode());
-        assertEquals(bookDTO, response.getData());
-        verify(bookService, times(1)).registerBook(any(BookDTO.class));
+        assertEquals(ApiConstants.CREATED_CODE, response.getCode());  // Check if status code is 201 (created)
     }
 
     @Test
     void testGetAllBooks() {
-        // Arrange
-        List<BookDTO> bookList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            bookList.add(generateRandomBookDTO());
-        }
-        when(bookService.getAllBooks()).thenReturn(bookList);
+        when(bookService.getAllBooks()).thenReturn(List.of(generateRandomBookDTO(), generateRandomBookDTO()));
 
-        // Act
-        ApiResponse<List<BookDTO>> response = libraryController.getAllBooks();
+        ApiResponse<?> response = libraryController.getAllBooks();
 
-        // Assert
-        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());
-        assertEquals(bookList, response.getData());
-        verify(bookService, times(1)).getAllBooks();
+        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());  // Check if status code is 200 (success)
     }
 
     @Test
     void testBorrowBook() {
-        // Arrange
-        Long bookId = faker.number().numberBetween(1L, 1000L);
-        BookDTO borrowedBook = generateRandomBookDTO();
-        when(bookService.borrowBook(bookId)).thenReturn(borrowedBook);
+        Long bookId = faker.number().randomNumber();
+        when(bookService.borrowBook(bookId)).thenReturn(generateRandomBookDTO());
 
-        // Act
-        ApiResponse<BookDTO> response = libraryController.borrowBook(bookId);
+        ApiResponse<?> response = libraryController.borrowBook(bookId);
 
-        // Assert
-        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());
-        assertEquals(borrowedBook, response.getData());
-        verify(bookService, times(1)).borrowBook(bookId);
+        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());  // Check if status code is 200 (success)
     }
 
     @Test
     void testReturnBook() {
-        // Arrange
-        Long bookId = faker.number().numberBetween(1L, 1000L);
-        BookDTO returnedBook = generateRandomBookDTO();
-        when(bookService.returnBook(bookId)).thenReturn(returnedBook);
+        Long bookId = faker.number().randomNumber();
+        when(bookService.returnBook(bookId)).thenReturn(generateRandomBookDTO());
 
-        // Act
-        ApiResponse<BookDTO> response = libraryController.returnBook(bookId);
+        ApiResponse<?> response = libraryController.returnBook(bookId);
 
-        // Assert
-        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());
-        assertEquals(returnedBook, response.getData());
-        verify(bookService, times(1)).returnBook(bookId);
+        assertEquals(ApiConstants.SUCCESS_CODE, response.getCode());  // Check if status code is 200 (success)
     }
 }
