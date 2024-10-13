@@ -14,6 +14,55 @@ Library System API: A Spring Boot Application
 Library System API is a robust Spring Boot application designed to simplify the management of borrower and book through a set of RESTful APIs.
 
 
+## Project Structure
+
+### **Controllers**
+- `HomeController`: Handles requests related to the home endpoint.
+- `LibraryController`: Manages requests related to library operations such as adding, borrowing, and returning books.
+
+### **Services**
+- `BookServiceImpl`: Contains the core business logic for managing books, including adding, list, borrow and returns books from the library.
+- `BorrowerServiceImpl`: Manages business operations related to borrowers and including registration.
+
+### **Repositories**
+- `BookRepository`: Interface for accessing book-related data from the database.
+- `BorrowerRepository`: Interface for accessing borrower-related data from the database.
+
+### **Configurations**
+- `AuditorAwareImpl`: Configures auditing to track changes made to entities (e.g., creation and update timestamps).
+
+### **DTOs (Data Transfer Objects)**
+- `ApiResponse`: A standardized response object for all API responses.
+- `BookDTO`: Data transfer object for book-related information, used when transferring data between layers.
+- `BorrowerDTO`: Data transfer object for borrower-related information.
+
+### **Entities**
+- `BaseAudit`: A base entity class that adds auditing fields (createdAt, updatedAt) to all entities that extend it.
+- `Book`: Represents a book entity in the system, with fields such as `id`, `isdn`, `title`, `author` and `isBorrowed`.
+- `Borrower`: Represents a borrower entity in the system, with fields such as `id`, `name`, and `email`.
+
+### **Exceptions**
+- Custom exceptions for error handling:
+  - `BookAlreadyBorrowedException`
+  - `BookAlreadyExistsException`
+  - `BookNotFoundException`
+  - `BorrowerAlreadyExistsException`
+  - `InvalidBookDetailsException`
+- `GlobalExceptionHandler`: Centralized error handling mechanism for the application.
+
+### **Initializer**
+- `DataInitializer`: Seeds the database with initial data at startup.
+
+## Getting Started
+
+### Prerequisites
+Before you begin, ensure you have the following installed on your local machine:
+- **Java 17:** Ensure Java Development Kit (JDK) version 17 or higher is installed.
+- **Maven:** Make sure Maven is installed to build and manage the project dependencies.
+- **Lombok:** Install Lombok plugin for your IDE (if using) to enable annotation-based boilerplate code generation.
+- **Postman:** Install Postman to test the APIs.
+- **MySQL:** Ensure MySQL is installed and running.
+
 ## Usage
 
 Please refer to the Swagger documentation for detailed information on how to use the APIs provided by this project.
