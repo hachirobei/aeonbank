@@ -32,12 +32,12 @@ Explore and interact with the APIs using Swagger UI. Access the API documentatio
 2. **Import Collection into Postman:**
    - Open Postman.
    - Click on the "Import" button in the top-left corner.
-   - Select the downloaded "Online Store.postman_collection" file.
+   - Select the downloaded "aeon.postman_collection" file.
    - The collection will be imported into your Postman workspace.
 
 3. **Test the APIs:**
    - Explore the imported collection to view available requests.
-   - Execute requests to interact with the Online Store Management System's APIs.
+   - Execute requests to interact with the Library System's APIs.
    - Verify responses to ensure the APIs function as expected.
 
 ### Automated Testing
