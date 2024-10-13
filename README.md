@@ -13,7 +13,6 @@ Library System API: A Spring Boot Application
 ## Description
 Library System API is a robust Spring Boot application designed to simplify the management of borrower and book through a set of RESTful APIs.
 
-
 ## Project Structure
 
 ### **Controllers**
@@ -62,6 +61,45 @@ Before you begin, ensure you have the following installed on your local machine:
 - **Lombok:** Install Lombok plugin for your IDE (if using) to enable annotation-based boilerplate code generation.
 - **Postman:** Install Postman to test the APIs.
 - **MySQL:** Ensure MySQL is installed and running.
+
+Additionally, for running the project using Docker, make sure you have:
+- **Docker:** Install Docker to containerize and deploy the application.
+- **Docker Compose:** Install Docker Compose to manage multi-container Docker applications.
+
+  ## Why Docker?
+
+Utilizing Docker within the Library System API project enhances consistency, simplifies configuration, and ensures that the application environment is replicable and isolated. This approach minimizes compatibility issues across different environments and facilitates easier scaling and security management. Docker's lightweight nature also ensures efficient use of system resources.
+
+Docker's integration into CI/CD pipelines promotes robust testing and deployment practices, ensuring that each build is automatically tested and deployed, maintaining high standards of quality and reliability.
+
+## Getting Started
+
+### For Linux, Mac, and Windows:
+
+1. **Install Docker:**
+   - Follow the official Docker documentation for detailed installation instructions specific to your operating system.
+
+## Building and Running Docker Containers
+
+To build and run the Docker containers for the project, follow these steps:
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/hachirobei/aeonbank.git
+    ```
+
+2. **Navigate to the project directory:**
+    ```bash
+    cd aeonbank/librarysystem
+    ```
+
+3. **Build and run the Docker containers:**
+    ```bash
+    docker-compose up -d --build
+    ```
+
+This command will start the containers in detached mode and build any necessary images.
+
 
 ## Usage
 
